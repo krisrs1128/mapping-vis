@@ -5,7 +5,7 @@ description: |
 site: distill::distill_website
 ---
 
-![]("assets/glacier_thumbnail.png")
+![](assets/glacier_thumbnail.png)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -13,14 +13,14 @@ knitr::opts_chunk$set(echo = FALSE)
 
 This workshop explores the role of visualization in data science workflows that
 use satellite imagery. We'll get hands-on experience with how visualization can
-be used to support,
+support,
 
 * Data validation and cleaning
 * Model inspection and error analysis.
 
 We'll walk through a toy version of a glacier mapping problem. Using freely
 available Landsat imagery, we'll train a model to recognize different types of
-glaciers.
+glaciers. You are encouraged to bring problems of your own for group discussion.
 
 ## Prerequisites
 
