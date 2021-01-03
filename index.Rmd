@@ -1,7 +1,8 @@
 ---
 title: "Visualizing Mapping Models"
 description: |
-  Data Science Bazaar Workshop
+  Data Science Bazaar Workshop <br/>
+  February 17, 2021
 site: distill::distill_website
 ---
 
