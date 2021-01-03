@@ -5,6 +5,8 @@ description: |
 site: distill::distill_website
 ---
 
+![](assets/glacier_thumbnail.png)
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
@@ -63,4 +65,4 @@ This workshop will be held on February 17, 2021.
 ## Contact
 
 Do you have any questions about the workshop? Don't hesitate to reach out to
-![mailto:ksankaran@wisc.edu](ksankaran@wisc.edu).
+[mailto:ksankaran@wisc.edu](ksankaran@wisc.edu).

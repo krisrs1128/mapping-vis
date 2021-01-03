@@ -6,15 +6,15 @@
       "description": "Some additional details about the website",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2021-01-03T16:33:11-06:00"
+      "last_modified": "2021-01-03T16:35:28-06:00"
     },
     {
       "path": "index.html",
       "title": "Visualizing Mapping Models",
       "description": "Data Science Bazaar Workshop\n",
       "author": [],
-      "contents": "\n\nContents\nPrerequisites\nMaterials\nSchedule\nResources\nContact\n\nThis workshop explores the role of visualization in data science workflows that use satellite imagery. We’ll get hands-on experience with how visualization can be used to support,\nData validation and cleaning\nModel inspection and error analysis.\nWe’ll walk through a toy version of a glacier mapping problem. Using freely available Landsat imagery, we’ll train a model to recognize different types of glaciers.\nPrerequisites\nBasic familiarity with R\nYou should be able to enter the binder notebooks linked below\nMaterials\nBinder Notebooks\nData preparation\nModel training\nModel visualization\n\nData\nRaw data\nProcessed data\n\nResults\nModel\nPredictions\nError rates\n\nSchedule\nThis workshop will be held on February 17, 2021.\nTime\nFormat\nTopic\n2:45 - 2:55pm\nLecture\nVisualization and ambiguity\n2:55 - 3:35pm\nInteractive Coding\nExploring and developing models\n3:35 - 3:45pm\nDiscussion\nReflections\n3:45 - 3:50pm\nBreak\n\n3:45 - 4:35pm\nInteractive Coding\nExamining the trained models\n4:35 - 4:45pm\nDiscussion\nReflections\nResources\nIntroduction to Data Science: Chapter 7\nR for Data Science: Chapter 12\nGeographic Data in R: Chapter 2\nSpatial Data Science with R\nTowards better analysis of machine learning models: A visual analytics perspective\nContact\nDo you have any questions about the workshop? Don’t hesitate to reach out to .\n\n\n\n",
-      "last_modified": "2021-01-03T16:33:12-06:00"
+      "contents": "\n\nContents\nPrerequisites\nMaterials\nSchedule\nResources\nContact\n\n\nThis workshop explores the role of visualization in data science workflows that use satellite imagery. We’ll get hands-on experience with how visualization can be used to support,\nData validation and cleaning\nModel inspection and error analysis.\nWe’ll walk through a toy version of a glacier mapping problem. Using freely available Landsat imagery, we’ll train a model to recognize different types of glaciers.\nPrerequisites\nBasic familiarity with R\nYou should be able to enter the binder notebooks linked below\nMaterials\nBinder Notebooks\nData preparation\nModel training\nModel visualization\n\nData\nRaw data\nProcessed data\n\nResults\nModel\nPredictions\nError rates\n\nSchedule\nThis workshop will be held on February 17, 2021.\nTime\nFormat\nTopic\n2:45 - 2:55pm\nLecture\nVisualization and ambiguity\n2:55 - 3:35pm\nInteractive Coding\nExploring and developing models\n3:35 - 3:45pm\nDiscussion\nReflections\n3:45 - 3:50pm\nBreak\n\n3:45 - 4:35pm\nInteractive Coding\nExamining the trained models\n4:35 - 4:45pm\nDiscussion\nReflections\nResources\nIntroduction to Data Science: Chapter 7\nR for Data Science: Chapter 12\nGeographic Data in R: Chapter 2\nSpatial Data Science with R\nTowards better analysis of machine learning models: A visual analytics perspective\nContact\nDo you have any questions about the workshop? Don’t hesitate to reach out to mailto:ksankaran@wisc.edu.\n\n\n\n",
+      "last_modified": "2021-01-03T16:35:28-06:00"
     }
   ],
   "collections": []
