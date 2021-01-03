@@ -2,7 +2,7 @@ name: "mapping-vis"
 title: "Visualizing Mapping Models"
 description: |
   Visualizing Mapping Models
-output_dir: "_site"
+output_dir: "docs"
 navbar:
   right:
     - text: "Home"
