@@ -1,0 +1,66 @@
+---
+title: "Visualizing Mapping Models"
+description: |
+  Data Science Bazaar Workshop.
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+This workshop explores the role of visualization in data science workflows that
+use satellite imagery. We'll get hands-on experience with how visualization can
+be used to support,
+
+* Data validation and cleaning
+* Model inspection and error analysis.
+
+We'll walk through a toy version of a glacier mapping problem. Using freely
+available Landsat imagery, we'll train a model to recognize different types of
+glaciers.
+
+## Prerequisites
+
+* Basic familiarity with R
+* You should be able to enter the binder notebooks linked below
+
+## Materials
+
+* Binder Notebooks
+  - Data preparation
+  - Model training
+  - Model visualization
+* Data
+  - Raw data
+  - Processed data
+* Results
+  - Model
+  - Predictions
+  - Error rates
+
+## Schedule
+
+This workshop will be held on February 17, 2021.
+
+| Time | Format | Topic |
+| -- | -- | ---- |
+| 2:45 - 2:55pm | Lecture | Visualization and ambiguity |
+| 2:55 - 3:35pm |Interactive Coding | Exploring and developing models |
+| 3:35 - 3:45pm | Discussion | Reflections |
+| 3:45 - 3:50pm | Break | |
+| 3:45 - 4:35pm | Interactive Coding | Examining the trained models |
+| 4:35 - 4:45pm | Discussion | Reflections |
+
+## Resources
+
+* [Introduction to Data Science: Chapter 7](https://rafalab.github.io/dsbook/ggplot2.html)
+* [R for Data Science: Chapter 12](https://r4ds.had.co.nz)
+* [Geographic Data in R: Chapter 2](https://geocompr.robinlovelace.net/spatial-class.html)
+* [Spatial Data Science with R](https://rspatial.org/raster/index.html)
+* [Towards better analysis of machine learning models: A visual analytics perspective](https://arxiv.org/abs/1702.01226)
+
+## Contact
+
+Do you have any questions about the workshop? Don't hesitate to reach out to
+![mailto:ksankaran@wisc.edu](ksankaran@wisc.edu).
