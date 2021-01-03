@@ -5,7 +5,7 @@ description: |
 site: distill::distill_website
 ---
 
-<img src="assets/glacier_thumbnail.png" width="250"/>
+![]("assets/glacier_thumbnail.png")
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
