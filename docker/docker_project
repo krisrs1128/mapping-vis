@@ -1,0 +1,3 @@
+FROM krisrs1128/mapping_dep:020201
+
+RUN Rscript -e "remotes::install_github('krisrs1128/mappingvis')"
