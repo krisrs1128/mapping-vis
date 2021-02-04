@@ -11,10 +11,13 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r}
-library("EBImage")
+library("RStoolbox")
+library("ggplot2")
 library("mappingvis")
+library("raster")
 library("torch")
 library("torchvision")
+library("zeallot")
 ```
 
 ```{r}
@@ -34,15 +37,12 @@ ds <- glacier_data(x_paths, y_paths)
 ```
 
 ```{r}
-ix <- 2
+ix <- 1
 batch <- ds[ix]
 
-to_image(batch[[1]]) %>%
-  display()
-to_image(batch[[2]]) %>%
-  display()
-to_rgb(batch[[1]], c(5, 4, 2)) %>%
-  display()
+ggRGB(to_raster(batch[[1]]), r = 5, 4, 2)
+ggRGB(to_raster(batch[[1]]), r = 13, g = 12, b = 12)
+ggRGB(to_raster(batch[[2]]))
 ```
 
 ```{r}
@@ -55,19 +55,19 @@ loaders <- list(
 ```{r}
 n_epoch <- 20
 device <- torch_device(if(cuda_is_available()) "cuda" else "cpu")
-model <- initialize_unet(depth = 4, device = device)
+model <- initialize_unet(device = device)
 opt <- optim_sgd(model$parameters, lr = 0.1, momentum = 0.9)
 scheduler <- lr_one_cycle(opt, max_lr = 0.1, steps = length(loaders$train), epochs = n_epoch)
 
-losses <- matrix(nrow = n_epoch, ncol = length(loaders$train))
+losses <- list(
+  "train" = matrix(nrow = n_epoch, ncol = length(loaders$train)),
+  "test" = matrix(nrow = n_epoch, ncol = length(loaders$test))
+)
+
 for (i in seq_len(n_epoch)) {
-  res <- train_epoch(model, opt, loaders, scheduler, device)
-  losses[i, ] <- res$loss$train
-  model <- res$model
+  c(model, opt, scheduler, l) %<-% train_epoch(model, opt, loaders, scheduler, device)
+  print(mean(l$train))
+  losses$train[i, ] <- l$train
+  losses$test[i, ] <- l$test
 }
-
 ```
-```{r}
-res$loss
-```
-
