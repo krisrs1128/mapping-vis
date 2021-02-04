@@ -7,6 +7,8 @@ author:
     affiliation: UW Madison
 date: "`r Sys.Date()`"
 output: distill::distill_article
+params:
+  data_dir: "/Users/kris/Desktop/teaching/mapping-vis/data/"
 ---
 
 ```{r setup, include=FALSE}
@@ -17,8 +19,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library("RStoolbox")
 library("dplyr")
 library("ggplot2")
-library("raster")
-library("gdalUtils")
+library("mappingvis")
 library("sf")
 library("tidyr")
 library("tmap")
@@ -26,7 +27,7 @@ theme_set(theme_bw())
 ```
 
 ```{r}
-data_dir <- file.path("/Users/kris/Desktop/teaching/mapping-vis/data/")
+data_dir <- params$data_dir
 x_path <- file.path(data_dir, "raw", "region.vrt")
 y <- read_sf(file.path(data_dir, "raw", "Glacier_2005.shp")) %>%
   filter(Sub_basin == "Dudh Koshi")
@@ -36,7 +37,7 @@ band_names <- brick(file.path(data_dir, "raw", "LE07_152035_20060917-warped.tiff
 
 ```{r}
 tm_shape(y) +
-  tm_fill(col = "Glaciers", palette = "Set2")
+  tm_fill(col = "Glaciers", palette = c("#93b9c3", "#4e326a"))
 ```
 
 ```{r}
