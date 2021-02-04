@@ -58,6 +58,12 @@ ggplot(y, aes(x = Longitude, y = Latitude)) +
   geom_point(data = k_centers, col = "red") +
   scale_color_manual(values = c("#93b9c3", "#4e326a"))
 ```
+```{r}
+library("purrr")
+library("gdalUtils")
+library("stringr")
+```
+
 
 ```{r}
 x_path <- file.path(data_dir, "raw", "region.vrt")

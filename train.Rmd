@@ -1,0 +1,73 @@
+---
+title: "Train on Preprocessed Data"
+output: html_notebook
+params:
+  data_dir: "/Users/kris/Desktop/teaching/mapping-vis/data/processed/"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+library("EBImage")
+library("mappingvis")
+library("torch")
+library("torchvision")
+```
+
+```{r}
+glacier_data <- dataset(
+  name = "glaciers",
+  initialize = initializer,
+  .getitem = getitem,
+  .length = function() { nrow(self$paths) }
+)
+```
+
+```{r}
+data_dir <- params$data_dir
+x_paths <- list.files(data_dir, "x-*", full = TRUE)
+y_paths <- list.files(data_dir, "y-*", full = TRUE)
+ds <- glacier_data(x_paths, y_paths)
+```
+
+```{r}
+ix <- 2
+batch <- ds[ix]
+
+to_image(batch[[1]]) %>%
+  display()
+to_image(batch[[2]]) %>%
+  display()
+to_rgb(batch[[1]], c(5, 4, 2)) %>%
+  display()
+```
+
+```{r}
+loaders <- list(
+  "train" = dataloader(ds, batch_size=2), 
+  "test" = dataloader(ds, batch_size=2)
+)
+```
+
+```{r}
+n_epoch <- 20
+device <- torch_device(if(cuda_is_available()) "cuda" else "cpu")
+model <- initialize_unet(depth = 4, device = device)
+opt <- optim_sgd(model$parameters, lr = 0.1, momentum = 0.9)
+scheduler <- lr_one_cycle(opt, max_lr = 0.1, steps = length(loaders$train), epochs = n_epoch)
+
+losses <- matrix(nrow = n_epoch, ncol = length(loaders$train))
+for (i in seq_len(n_epoch)) {
+  res <- train_epoch(model, opt, loaders, scheduler, device)
+  losses[i, ] <- res$loss$train
+  model <- res$model
+}
+
+```
+```{r}
+res$loss
+```
+
