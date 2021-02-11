@@ -1,0 +1,31 @@
+---
+title: "Materials"
+description: |
+  Data Science Bazaar Workshop <br/>
+  February 17, 2021
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Follow Along
+
+* [Rstudio](https://mybinder.org/v2/gh/krisrs1128/mappingvis/master?urlpath=rstudio)
+* [Jupyterlab](https://mybinder.org/v2/gh/krisrs1128/mappingvis/master?urlpath=lab/tree/ipynb)
+* [Github](https://github.com/krisrs1128/mappingvis)
+
+## Compiled Notes
+
+* [Data Preview](1-preview.html)
+* [Preprocess](2-preprocess.html)
+* [Train](3-train.html)
+* [Save]()
+* [Evaluate]()
+
+## Other
+
+* Introductory slides
+* Discussion prompts
+* Datasets

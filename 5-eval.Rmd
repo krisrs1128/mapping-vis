@@ -1,0 +1,126 @@
+---
+title: "Analyzing Predictions"
+description: |
+    Studying saved predictions from a model.
+author:
+  - name: Kris Sankaran
+    affiliation: UW Madison
+date: "`r Sys.Date()`"
+output: distill::distill_article
+params:
+  preds_dir: "/Users/kris/data/predictions/train"
+  geo_dir: "/Users/kris/data/processed"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = TRUE)
+```
+
+1. In these notes, we'll visualize some of the predictions from our trained
+model. Our focus is on the form and quality of the predictions, rather than the
+mechanics of the training process itself.
+
+```{r}
+library("RStoolbox")
+library("dplyr")
+library("ggplot2")
+library("raster")
+library("reticulate")
+library("sf")
+library("stringr")
+library("tidyr")
+library("tmap")
+source("data.R")
+np <- reticulate::import("numpy")
+theme_set(theme_minimal())
+```
+
+```{r}
+precision_recall_curve <- function(y, y_hat, n_thresh=25, low=0.1, high=0.7) {
+  p_thresh <- seq(low, high, length.out = n_thresh)
+  metrics <- tibble(
+    threshold = p_thresh,
+    precision = rep(0, n_thresh),
+    recall = rep(0, n_thresh)
+  )
+  
+  for (i in seq_len(n_thresh)) {
+    y_ <- as.numeric(y_hat > p_thresh[i])
+    intersection <- sum(y * y_)
+    
+    metrics$precision[i] <- intersection / sum(y_)
+    metrics$recall[i] <- intersection / sum(y)
+  }
+  
+  metrics
+}
+```
+
+```{r}
+y_hat_paths <- dir(params$preds_dir, "^y_hat-*", full = TRUE)
+metrics <- vector(mode = "list", length = 3 * length(y_hat_paths))
+
+ix <- 1
+for (i in seq_along(y_hat_paths)) {
+  y_hat <- np$load(y_hat_paths[i])
+  y_path <- str_replace(y_hat_paths[i], "y_hat", "y")
+  y <- np$load(y_path)
+  for (k in seq_len(nrow(y))) {
+    metrics[[ix]] <- precision_recall_curve(y[k,,], y_hat[k,,]) 
+    metrics[[ix]]$class <- k
+    metrics[[ix]]$i <- i
+    ix <- ix + 1
+  }
+}
+
+metrics <- bind_rows(metrics)
+```
+
+```{r, fig.width = 8}
+ggplot(metrics, aes(x = threshold, y = precision)) +
+  geom_line(aes(group = i), size = 0.9, alpha = 0.6) +
+  facet_wrap(~ class)
+
+ggplot(metrics, aes(x = threshold, y = recall)) +
+  geom_line(aes(group = i), size = 0.9, alpha = 0.6) +
+  facet_wrap(~ class)
+```
+```{r}
+avg_metrics <- metrics %>%
+  group_by(i, class) %>%
+  summarise(avg_precision = mean(precision, na.rm = TRUE), avg_recall = mean(recall, na.rm = TRUE)) %>%
+  arrange(class, desc(avg_precision), desc(avg_recall))
+```
+```{r}
+avg_metrics
+```
+
+```{r, fig.width = 5}
+i <- 4
+y_hat <- load_npy(y_hat_paths[i])
+y <- load_npy(str_replace(y_hat_paths[i], "y_hat", "y"))
+x <- load_npy(str_replace(y_hat_paths[i], "y_hat", "x"))
+
+ggRGB(subset(x, c(5, 4, 2)))
+ggRGB(subset(x, c(13, 13, 13)))
+ggRGB(y_hat, r = NULL)
+ggRGB(y, r = NULL)
+```
+
+```{r}
+y_df <- raster(y[2,,]) %>%
+  as.data.frame(xy = TRUE) %>%
+  rename("truth" = "layer")
+
+y_hat_df <- raster(y_hat[2,,]) %>%
+  as.data.frame(xy = TRUE) %>%
+  rename("pred" = "layer")
+```
+
+```{r}
+y_df <- y_df %>%
+  left_join(y_hat_df)
+ggplot(y_df) +
+  geom_histogram(aes(x = pred), binwidth = 0.005) +
+  facet_grid(truth ~ ., scale = "free_y")
+```
