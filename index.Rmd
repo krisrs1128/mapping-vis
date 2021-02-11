@@ -28,20 +28,6 @@ glaciers. You are encouraged to bring problems of your own for group discussion.
 * Basic familiarity with R
 * You should be able to enter the binder notebooks linked below
 
-## Materials
-
-* Binder Notebooks
-  - Data preparation
-  - Model training
-  - Model visualization
-* Data
-  - Raw data
-  - Processed data
-* Results
-  - Model
-  - Predictions
-  - Error rates
-
 ## Schedule
 
 This workshop will be held on February 17, 2021.
@@ -66,4 +52,4 @@ This workshop will be held on February 17, 2021.
 ## Contact
 
 Do you have any questions about the workshop? Don't hesitate to reach out to
-[mailto:ksankaran@wisc.edu](ksankaran@wisc.edu).
+[ksankaran@wisc.edu](mailto:ksankaran@wisc.edu).
