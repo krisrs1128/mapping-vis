@@ -1,7 +1,7 @@
 
-#' @importFrom EBImage equalize
+#' @importFrom EBImage normalize
 #' @export
-equalize_input <- function(x, ...) {
+normalize_input <- function(x, ...) {
     n_layers <- dim(x)[3]
     result <- array(dim = dim(x))
 
@@ -9,7 +9,7 @@ equalize_input <- function(x, ...) {
         cur_layer <- x[,, l]
         cur_layer <- cur_layer - min(cur_layer)
         cur_layer <- cur_layer / max(cur_layer)
-        result[,, l] <- EBImage::equalize(cur_layer, ...)
+        result[,, l] <- EBImage::normalize(cur_layer, ...)
     }
 
     result
@@ -30,7 +30,7 @@ read_subset <- function(x_path, te, band_names = NULL) {
     gdalbuildvrt(x_path, tmp, te = te)
     result <- brick(tmp)
     if (is.null(band_names)) {
-      names(result) <- c("B1", "B2", "B3", "B4", "B5", "B6_VCID_1", "B6_VCID_2", "B7", "B8", "BQA", "ndvi", "ndsi", "ndwi", "elevation", "slope") 
+      names(result) <- c("B1", "B2", "B3", "B4", "B5", "B6_VCID_1", "B6_VCID_2", "B7", "B8", "BQA", "ndvi", "ndsi", "ndwi", "elevation", "slope")
     }
 
     # remove outliers and return
@@ -58,7 +58,7 @@ generate_patch <- function(x_path, center, max_na = 0.2, subset_inputs=NULL) {
   x <- x[,, subset_inputs]
   if (mean(is.na(x)) < max_na) {
     x <- impute_na(x) %>%
-      equalize_input(range = c(-1, 1))
+      normalize_input(ft = c(-1, 1))
   } else {
     stop("Too many missing values.")
   }
@@ -111,7 +111,7 @@ write_patches <- function(x_path, ys, centers, out_dir) {
     patch <- tryCatch({ generate_patch(x_path, centers[i, ]) }, error = err)
     y <- tryCatch({ label_mask(ys, patch$raster) }, error = err)
     if (is.na(y) || is.na(patch)) next
-    
+
     # save results
     np$save(file.path(out_dir, str_c("x-", j, ".npy")), patch$x)
     np$save(file.path(out_dir, str_c("y-", j, ".npy")), y)
@@ -138,4 +138,20 @@ to_raster <- function(x) {
 load_npy <- function(p) {
   np$load(p) %>%
     to_raster()
+}
+
+plot_rgb <- function(x, channels=NULL, ...) {
+  if (is.null(channels)) {
+    channels <- seq_len(dim(x)[3])
+  }
+  
+  ggRGB(subset(x, channels), ...) +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    theme(
+      axis.text = element_blank(),
+      axis.ticks = element_blank(),
+      axis.title = element_blank(),
+      plot.margin = unit(c(0, 0, 0, 0), "cm")
+    )
 }
