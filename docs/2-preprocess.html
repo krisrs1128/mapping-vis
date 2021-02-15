@@ -91,8 +91,8 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-02-11"/>
-  <meta property="article:created" itemprop="dateCreated" content="2021-02-11"/>
+  <meta property="article:published" itemprop="datePublished" content="2021-02-14"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-02-14"/>
   <meta name="article:author" content="Kris Sankaran"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -111,7 +111,7 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","params"]}},"value":[{"type":"character","attributes":{},"value":["Data Preparation"]},{"type":"character","attributes":{},"value":["Generating data for model training.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Kris Sankaran"]},{"type":"character","attributes":{},"value":["UW Madison"]}]}]},{"type":"character","attributes":{},"value":["2021-02-11"]},{"type":"character","attributes":{},"value":["distill::distill_article"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["raw_dir","out_dir","basins","n_patches"]}},"value":[{"type":"character","attributes":{},"value":["/Users/kris/data/raw"]},{"type":"character","attributes":{},"value":["/Users/kris/data/processed/train/"]},{"type":"character","attributes":{},"value":["https://uwmadison.box.com/shared/static/2ptmi9b4gt5d5vyusju5u8kn5n1s6hnd.csv"]},{"type":"integer","attributes":{},"value":[75]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","params"]}},"value":[{"type":"character","attributes":{},"value":["Data Preparation"]},{"type":"character","attributes":{},"value":["Generating data for model training.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Kris Sankaran"]},{"type":"character","attributes":{},"value":["UW Madison"]}]}]},{"type":"character","attributes":{},"value":["2021-02-14"]},{"type":"character","attributes":{},"value":["distill::distill_article"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["raw_dir","out_dir","basins","n_patches"]}},"value":[{"type":"character","attributes":{},"value":["/Users/kris/data/raw"]},{"type":"character","attributes":{},"value":["/Users/kris/data/processed/train"]},{"type":"character","attributes":{},"value":["https://uwmadison.box.com/shared/static/2ptmi9b4gt5d5vyusju5u8kn5n1s6hnd.csv"]},{"type":"integer","attributes":{},"value":[75]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2209,7 +2209,7 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Data Preparation","description":"Generating data for model training.","authors":[{"author":"Kris Sankaran","authorURL":"#","affiliation":"UW Madison","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-02-11T00:00:00.000-06:00","citationText":"Sankaran, 2021"}
+{"title":"Data Preparation","description":"Generating data for model training.","authors":[{"author":"Kris Sankaran","authorURL":"#","affiliation":"UW Madison","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-02-14T00:00:00.000-06:00","citationText":"Sankaran, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2240,7 +2240,7 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 <div class="d-byline">
   Kris Sankaran  (UW Madison)
   
-<br/>2021-02-11
+<br/>2021-02-14
 </div>
 
 <div class="d-article">
@@ -2256,55 +2256,134 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 <li>We load quite a few libraries for this step. Many will be familiar from the previous notes, but two new ones are <code>abind</code>, which is used to manipulate subsetted arrays of imagery, and <code>reticulate</code>, which is used to navigate back and forth between R and python. We need <code>reticulate</code> because we will save our final dataset as a collection of <code>.npy</code> numpy files – these are a convenient format for training our mapping model, which is written in python.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='http://bleutner.github.io/RStoolbox'>"RStoolbox"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"abind"</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://dplyr.tidyverse.org'>"dplyr"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"gdalUtils"</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ggplot2.tidyverse.org'>"ggplot2"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"gridExtra"</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='http://purrr.tidyverse.org'>"purrr"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://rspatial.org/raster'>"raster"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://readr.tidyverse.org'>"readr"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/rstudio/reticulate'>"reticulate"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://r-spatial.github.io/sf/'>"sf"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='http://stringr.tidyverse.org'>"stringr"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://tidyr.tidyverse.org'>"tidyr"</a></span><span class='op'>)</span>
 
+<span class='co'># setting up python environment</span>
+<span class='fu'><a href='https://rdrr.io/pkg/reticulate/man/use_python.html'>use_condaenv</a></span><span class='op'>(</span><span class='st'>"notebook"</span><span class='op'>)</span>
+<span class='va'>np</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/reticulate/man/import.html'>import</a></span><span class='op'>(</span><span class='st'>"numpy"</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/source.html'>source</a></span><span class='op'>(</span><span class='st'>"data.R"</span><span class='op'>)</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme_get.html'>theme_set</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <ol start="3" type="1">
 <li>We want to make sure we don’t overfit our model. To this end, we’ll use different geographic sub-basins for training and evaluation. For training, we’re just using the <code>Kokcha</code> basin, and for evaluation, we use <code>Dudh Koshi</code>. In general, our notebook takes arbitrary lists of basins, specified by links to csv files through the <code>basins</code> parameter in the header. A <a href="https://uwmadison.box.com/shared/static/up5859yw686v5pcnjcq2xik8v4c69ka3.csv">larger list</a> of training basins was used to train a model we’ll see soon, but it takes much longer to preprocess, and would be a hassle even just to download.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>y_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>params</span><span class='op'>$</span><span class='va'>raw_dir</span>, <span class='st'>"glaciers.geojson"</span><span class='op'>)</span>
+<span class='va'>basins</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='va'>params</span><span class='op'>$</span><span class='va'>basins</span><span class='op'>)</span>
 
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>read_sf</a></span><span class='op'>(</span><span class='va'>y_path</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Sub_basin</span> <span class='op'>%in%</span> <span class='va'>basins</span><span class='op'>$</span><span class='va'>Sub_basin</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <ol start="4" type="1">
 <li>To address the imbalance and image size issues, we’ll sample locations randomly from within the current basins’ glaciers. This is done using the <code>st_sample</code> function. More patches will translate into more patches for training the model, but it will also increase the chance that training patches overlap. You will see a warning message about <code>st_intersection</code> – it’s safe to ignore that for our purpose (we are ignoring the fact that the surface of the earth is slightly curved).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode">
+<pre><code><span class='va'>centers</span> <span class='op'>&lt;-</span> <span class='va'>y</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_sample.html'>st_sample</a></span><span class='op'>(</span><span class='va'>params</span><span class='op'>$</span><span class='va'>n_patches</span>, type <span class='op'>=</span> <span class='st'>"random"</span>, by_polygon <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_coordinates.html'>st_coordinates</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>centers</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Longitude"</span>, <span class='st'>"Latitude"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <ol start="5" type="1">
 <li>To better understand this sampling procedure, let’s visualize the centers of the sampled locations on top of the basins that are available for training. We can see that we have more samples in areas that have higher glacier density, which helps alleviate the imbalance problem. As an aside, this visualization gives an example of visualizing a spatial geometry (the glaciers object, <code>y</code>) together with an ordinary data frame (the <code>centers</code> for sampling).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>y</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Longitude</span>, y <span class='op'>=</span> <span class='va'>Latitude</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>geom_sf</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>y</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='va'>Glaciers</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>centers</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, size <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#93b9c3"</span>, <span class='st'>"#4e326a"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>p</span>
+</code></pre>
+</div>
 <p><img src="2-preprocess_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
 <ol start="6" type="1">
 <li>That image is quite zoomed out. To see some of the sampling locations along with just a few glaciers, we can zoom in, using the <code>coord_sf</code> modifier.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>p</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsf.html'>coord_sf</a></span><span class='op'>(</span>xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>70.7</span>, <span class='fl'>71.2</span><span class='op'>)</span>,  ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>36.2</span>, <span class='fl'>36.5</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="2-preprocess_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
 </div>
 <ol start="9" type="1">
 <li>Now that we know where we want to sample our training imagery, let’s extract a patch. This is hidden away in <code>generate_patch</code> in the <code>data.R</code> script accompanying this notebook. This function also does all the preprocessing that we mentioned in the introduction. We’ll see the effect of this preprocessing in a minute – for now, let’s just run the patch extraction code. Note that we simultaneously extract a corresponding label, stored in <code>patch_y</code>. It’s these preprocessed satellite imagery - glacier label pairs that we’ll be showing to our model in order to train it.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode">
+<pre><code><span class='va'>vrt_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>params</span><span class='op'>$</span><span class='va'>raw_dir</span>, <span class='st'>"region.vrt"</span><span class='op'>)</span>
+<span class='va'>ys</span> <span class='op'>&lt;-</span> <span class='va'>y</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>$</span><span class='va'>Glaciers</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <ol start="10" type="1">
 <li>Let’s take a look at the preprocessed patches, just as a sanity check. We’re plotting the first of the sampled patches below. The image is much smaller now, but still contains a fair amount of glacier. Notice the false negative debris-covered glacier along the top of the image! A more sophisticated model would account for these kinds of data-specific variations, which become obvious when you visualize the data, but which are otherwise very hard to recognize.</li>
 </ol>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="2-preprocess_files/figure-html5/unnamed-chunk-7-1.png" width="480" /><img src="2-preprocess_files/figure-html5/unnamed-chunk-7-2.png" width="480" /><img src="2-preprocess_files/figure-html5/unnamed-chunk-7-3.png" width="480" /></p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div class="sourceCode">
+<pre><code><span class='va'>patch</span> <span class='op'>&lt;-</span> <span class='fu'>generate_patch</span><span class='op'>(</span><span class='va'>vrt_path</span>, <span class='va'>centers</span><span class='op'>[</span><span class='fl'>5</span>, <span class='op'>]</span><span class='op'>)</span>
+<span class='va'>patch_y</span> <span class='op'>&lt;-</span> <span class='fu'>label_mask</span><span class='op'>(</span><span class='va'>ys</span>, <span class='va'>patch</span><span class='op'>$</span><span class='va'>raster</span><span class='op'>)</span>
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  <span class='fu'>plot_rgb</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/brick.html'>brick</a></span><span class='op'>(</span><span class='va'>patch</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>4</span>, <span class='fl'>2</span><span class='op'>)</span>, r <span class='op'>=</span> <span class='fl'>1</span>, g <span class='op'>=</span> <span class='fl'>2</span>, b <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>,
+  <span class='fu'>plot_rgb</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/brick.html'>brick</a></span><span class='op'>(</span><span class='va'>patch</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>13</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='fu'>plot_rgb</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/brick.html'>brick</a></span><span class='op'>(</span><span class='va'>patch_y</span><span class='op'>)</span>, r <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html'>grid.arrange</a></span><span class='op'>(</span>grobs <span class='op'>=</span> <span class='va'>p</span>, ncol <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="2-preprocess_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
 </div>
 <ol start="11" type="1">
-<li>The other major change in these preprocessed images is that we’ve applied a quantile transform to each channel, mapping the sensor measurements to between <span class="math inline">\(\left[-1, 1\right]\)</span> for every image. We’re using the same histogram code that we used in the first notebook.</li>
+<li>The other major change in these preprocessed images is that we’ve applied a linear transformation to each channel, mapping the sensor measurements to between <span class="math inline">\(\left[-1, 1\right]\)</span> for every image. We’re using the same histogram code that we used in the first notebook.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>sample_ix</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/ncell.html'>nrow</a></span><span class='op'>(</span><span class='va'>patch</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>, <span class='fl'>250</span><span class='op'>)</span>
+<span class='va'>x_df</span> <span class='op'>&lt;-</span> <span class='va'>patch</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>sample_ix</span>, <span class='va'>sample_ix</span>, <span class='op'>]</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/raster/man/brick.html'>brick</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>x_df</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_histogram.html'>geom_histogram</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>name</span>, scale <span class='op'>=</span> <span class='st'>"free_x"</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="2-preprocess_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
 </div>
 <ol start="12" type="1">
 <li>Now that we’ve checked one of the patches, we can write them all to numpy arrays. Even after subsetting to only one basin, this step takes a fair bit of time, so we’ll instead just refer to <a href="https://uwmadison.box.com/shared/static/d54agxzb5g8ivr7hkac8nygqd6nrgrqr.gz">training</a> and test patches that I generated earlier. We’ll be downloading them at the start of the next notebook, which uses these data to train a mapping model. If you’re curious, we’ve also generated patches using a large list of training basins, available here. Using this larger dataset leads to a noticeably better model, but makes for an unwieldy tutorial. Nonetheless, the data are available for your experimentation after the workshop.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode">
+<pre><code><span class='fu'>write_patches</span><span class='op'>(</span><span class='va'>vrt_path</span>, <span class='va'>ys</span>, <span class='va'>centers</span>, <span class='va'>params</span><span class='op'>$</span><span class='va'>out_dir</span><span class='op'>)</span>
+<span class='co'>#unlink(params$raw, recursive = TRUE)</span>
+</code></pre>
+</div>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <section class="footnotes" role="doc-endnotes">
