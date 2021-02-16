@@ -51,7 +51,7 @@ theme_set(theme_minimal())
 
 3. We will download predictions that would have been saved by the
 `save_preds.ipynb` script, if we had let it run for a few more minutes. The
-download still takes time (the file is a little over 700MB), but it is still
+download still takes time (the file is over 600MB), but it is still
 faster than waiting for the predictions to be saved.
 
 ```{r}
@@ -72,6 +72,7 @@ data frame that helps keep track of which types of files are where.
 paths <- prediction_paths(preds_dir)
 head(paths)
 ```
+
 5. How good are the predictions? Our setting is a little trickier than the usual
 regression or classification settings. This is because (i) for each sample, we
 make predictions at every single pixel and (ii) we have several classes of
@@ -101,7 +102,7 @@ the threshold, going from lenient (high glacier recall, but low precision) to
 strict (low glacier recall, but high precision).
 
 ```{r, animation.hook="gifski", interval = 0.02}
-thresholds <- c(seq(0.05, 0.95, 0.01), rep(0.95, 10))
+thresholds <- c(seq(0.05, 0.90, 0.01), rep(0.90, 10))
 for (i in seq_along(thresholds)) {
   print(plot_rgb(y_hat > thresholds[i], 1, r = NULL, g = NULL, b = 1))
 }
@@ -132,11 +133,13 @@ clean-ice ones. A few examples from each class are uniformly easier than others,
 but generally, the samples within a given class have comparable difficulty with
 one another.
 
-10. It seems like we've overfit on the clean-ice glaciers, but underfit on the
-debris-covered ones. We can tell this because performance on training samples is
-noticeably better than for test samples for the clean-ice examples, but not for
-the debris-covered glaciers. In a future run, it might be worth rebalancing the
-data so that debris-covered glaciers are more common.
+10. It seems like, not only have we avoided overfitting the glacier classes --
+the test performance on the debris-covered class is superior to the performance
+on the clean-ice glacier class! This seems to be a consequence of the fact that
+the training and test data are not independent and identically distributed. In
+fact, the Dudh Koshi basin was chosen for testing because it's known to have a
+high density of debris-covered glaciers, and they are likely more clearly
+visually defined than the glaciers present across different training basins.
 
 ```{r}
 metrics_ <- metrics %>%
@@ -166,14 +169,14 @@ metrics_ %>%
   arrange(class, metric, desc(mean))
 ```
 
-13. It seems like sample 11 in the test split is one of the better ones. How
-does it look like? The block pulls the paths for `x`, `y`, and `y_hat` for this
-example and visualizes them. Try fiddling with the `ix` and `split` parameters
-to look at a few different examples.
+13. It seems like sample 29 in the test split is one of the better ones for the
+debris-covered class. How does it look like? The block pulls the paths for `x`,
+`y`, and `y_hat` for this example and visualizes them. Try fiddling with the
+`ix` and `split` parameters to look at a few different examples.
 
 ```{r, layout="l-body-outset"}
 ims <- paths %>%
-  filter(ix == 11, split == "test") %>% # what about 16 train? 4 test?
+  filter(ix == 29, split == "test") %>% # try a few other examples
   split(.$type) %>%
   map(~ load_npy(.$path[1]))
 

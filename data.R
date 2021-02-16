@@ -1,7 +1,7 @@
 
-#' @importFrom EBImage normalize
+#' @importFrom EBImage equalize
 #' @export
-normalize_input <- function(x, ...) {
+equalize_input <- function(x, ...) {
     n_layers <- dim(x)[3]
     result <- array(dim = dim(x))
 
@@ -9,7 +9,7 @@ normalize_input <- function(x, ...) {
         cur_layer <- x[,, l]
         cur_layer <- cur_layer - min(cur_layer)
         cur_layer <- cur_layer / max(cur_layer)
-        result[,, l] <- EBImage::normalize(cur_layer, ...)
+        result[,, l] <- EBImage::equalize(cur_layer, ...)
     }
 
     result
@@ -58,7 +58,7 @@ generate_patch <- function(x_path, center, max_na = 0.2, subset_inputs=NULL) {
   x <- x[,, subset_inputs]
   if (mean(is.na(x)) < max_na) {
     x <- impute_na(x) %>%
-      normalize_input(ft = c(-1, 1))
+      equalize_input(range = c(-1, 1))
   } else {
     stop("Too many missing values.")
   }
