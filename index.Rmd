@@ -26,7 +26,7 @@ glaciers. You are encouraged to bring problems of your own for group discussion.
 ## Prerequisites
 
 * Basic familiarity with R
-* You should be able to enter the binder notebooks linked below
+* You should be able to enter the binder notebooks linked [here](materials.html)
 
 ## Schedule
 
@@ -34,12 +34,11 @@ This workshop will be held on February 17, 2021.
 
 | Time | Format | Topic |
 | -- | -- | ---- |
-| 2:45 - 2:55pm | Lecture | Visualization and ambiguity |
-| 2:55 - 3:35pm |Interactive Coding | Exploring and developing models |
-| 3:35 - 3:45pm | Discussion | Reflections |
-| 3:45 - 3:50pm | Break | |
-| 3:45 - 4:35pm | Interactive Coding | Examining the trained models |
-| 4:35 - 4:45pm | Discussion | Reflections |
+| 2:45 - 3:00pm | Lecture | [Visualization and maps](https://drive.google.com/file/d/1QTxQcaPLS7OAsQf50-TR_nAfV_Ou6DRO/view?usp=sharing) |
+| 3:00 - 3:35pm |Interactive Coding | [Data exploration and preprocessing](1-preview.html) |
+| 3:35 - 3:50pm | Breakout Session | [Discussion](https://docs.google.com/document/d/1bQ1D-dJJc0hIyg17qT0YCRtkw4A0AaCJ_-yx5MahE98/edit?usp=sharing) |
+| 3:50 - 4:25 | Interactive Coding | [Model training and inspection](3-train.html) |
+| 4:25 - 4:45pm | Debrief | [Open Discussion](https://docs.google.com/document/d/1bQ1D-dJJc0hIyg17qT0YCRtkw4A0AaCJ_-yx5MahE98/edit?usp=sharing) |
 
 ## Resources
 

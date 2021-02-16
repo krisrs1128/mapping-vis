@@ -8,16 +8,19 @@ author:
 date: "`r Sys.Date()`"
 output: distill::distill_article
 params:
+  #data_dir: "/home/jovyan/data/raw/"
   data_dir: "/Users/kris/data/raw/"
   data_links: "https://uwmadison.box.com/shared/static/khd0plylp0o2tyhxlpizjj9rz7n5czya.csv"
 ---
+
+[Rstudio Link](https://mybinder.org/v2/gh/krisrs1128/mappingvis/master?urlpath=rstudio)
 
 1. In this notebook, we take a first look at the glacier data. We'll download
 the raw annotations and images, using visualization to gain familiarity with the
 structure of the problem.
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
 ```
 
 2. We'll be using the R packages below. `dplyr`, `ggplot2`, and `tidyr` are part
@@ -81,15 +84,22 @@ vrt_path <- file.path(data_dir, "region.vrt")
 gdalbuildvrt(x_paths, vrt_path, ot="float64")
 ```
 
-6. Time for our first visualization! The `glaciers.geojson` file demarcates the
-boundaries for two types of glaciers that are common in the Hindu Kush Himalayas
-region. The full dataset gives coordinates for glaciers across the whole region,
-which spans many countries, making it a bit overwhelming to visualize. Instead,
-let's pick one of 63 basins in the region and visualize its glacier boundaries.
+6. Time for our first visualization! The `glaciers_small.geojson` file
+demarcates the boundaries for two types of glaciers that are common in the Hindu
+Kush Himalayas region. The full version, available in the box folder, gives
+coordinates for glaciers across the whole region, which spans many countries,
+but reading this into Binder would put us against some of the compute limits.
+Instead, let's pick one a small patch from one of 63 basins in the region and
+visualize its glacier boundaries.
 
 ```{r}
-y <- read_sf(file.path(data_dir, "glaciers.geojson")) %>%
-  filter(Sub_basin == "Dudh Koshi")
+y <- read_sf(file.path(data_dir, "glaciers_small.geojson")) %>%
+  filter(
+    Sub_basin == "Dudh Koshi",
+    Longitude < 86.91, Longitude > 86.1,
+    Latitude < 27.81, Latitude > 27.7
+  )
+
 head(y)
 ```
 

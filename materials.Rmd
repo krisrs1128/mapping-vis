@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Follow Along
 
 * [Rstudio](https://mybinder.org/v2/gh/krisrs1128/mappingvis/master?urlpath=rstudio)
-* [Jupyterlab](https://mybinder.org/v2/gh/krisrs1128/mappingvis/master?urlpath=lab/tree/ipynb)
+* [Jupyterlab](https://mybinder.org/v2/gh/krisrs1128/mappingvis/master?urlpath=lab)
 * [Github](https://github.com/krisrs1128/mappingvis)
 
 ## Compiled Notes
@@ -21,11 +21,12 @@ knitr::opts_chunk$set(echo = FALSE)
 * [Data Preview](1-preview.html)
 * [Preprocess](2-preprocess.html)
 * [Train](3-train.html)
-* [Save]()
-* [Evaluate]()
+* [Save](4-save.html)
+* [Evaluate](5-eval.html)
 
 ## Other
 
-* Introductory slides
-* Discussion prompts
-* Datasets
+* [Introductory slides](https://drive.google.com/file/d/1QTxQcaPLS7OAsQf50-TR_nAfV_Ou6DRO/view?usp=sharing)
+* [Discussion prompts](https://docs.google.com/document/d/1bQ1D-dJJc0hIyg17qT0YCRtkw4A0AaCJ_-yx5MahE98/edit?usp=sharing)
+* [Workshop data](https://uwmadison.box.com/s/lwf3rm16qroy08u1wal1kcmh9813hshb),
+  [Full glacier data](http://lila.science/datasets/hkh-glacier-mapping)
